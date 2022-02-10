@@ -48,13 +48,30 @@ function App() {
     });
   };
 
-  const removeFromCart = (): void => {};
+  const removeFromCart = (id: number) => {
+    setCartArticles((prevArticle) =>
+      prevArticle.reduce((total, article) => {
+        if (article.id === id) {
+          if (article.amount === 1) {
+            return total;
+          }
+          return [...total, { ...article, amount: article.amount - 1 }];
+        } else {
+          return [...total, article];
+        }
+      }, [] as CartArticle[])
+    );
+  };
   const getTotal = (): void => {};
   console.log(data);
   return (
     <Wrapper>
       <Drawer anchor="right" open={openCart} onClose={() => setOpenCart(false)}>
-        <DrawerSlide articles={cartArticles} addToCart={addToCart} />
+        <DrawerSlide
+          articles={cartArticles}
+          addToCart={addToCart}
+          removeFromCart={removeFromCart}
+        />
       </Drawer>
       <StyledButton onClick={() => setOpenCart(true)}>
         <Badge color="error">
@@ -63,7 +80,7 @@ function App() {
       </StyledButton>
       <Grid container spacing={3}>
         {data?.map((article) => (
-          <Grid key={article.id} xs={12} sm={4}>
+          <Grid item key={article.id} xs={12} sm={4}>
             <Card article={article} addToCart={addToCart} />
           </Grid>
         ))}

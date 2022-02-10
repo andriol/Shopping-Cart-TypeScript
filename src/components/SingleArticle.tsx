@@ -1,14 +1,19 @@
 import React from "react";
 import { CartArticle } from "../App";
-import { Wrapper } from "./card.styles";
+import { Wrapper } from "./Card.styles";
 import Button from "@material-ui/core/Button";
 
 type Props = {
   article: CartArticle;
   addToCart: (selectedArticle: CartArticle) => void;
+  removeFromCart: (id: number) => void;
 };
 
-const SingleArticle: React.FC<Props> = ({ article, addToCart }) => (
+const SingleArticle: React.FC<Props> = ({
+  article,
+  addToCart,
+  removeFromCart,
+}) => (
   <Wrapper>
     <div>
       <h3>{article.title}</h3>
@@ -17,7 +22,12 @@ const SingleArticle: React.FC<Props> = ({ article, addToCart }) => (
         <p>Total: ${(article.amount * article.price).toFixed(2)}</p>
       </div>
       <div className="buttons">
-        <Button size="small" disableElevation variant="contained">
+        <Button
+          size="small"
+          disableElevation
+          variant="contained"
+          onClick={() => removeFromCart(article.id)}
+        >
           -
         </Button>
         <p>{article.amount}</p>
