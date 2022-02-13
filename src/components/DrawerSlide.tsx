@@ -12,6 +12,11 @@ const DrawerSlide: React.FC<Props> = ({
   addToCart,
   removeFromCart,
 }) => {
+  const calculateTotal = (articles: CartArticle[]) => {
+    return articles.reduce((total: number, article) => {
+      return total + article.amount * article.price;
+    }, 0);
+  };
   return (
     <Wrapper>
       <h2>Your Shopping Cart</h2>
@@ -24,6 +29,7 @@ const DrawerSlide: React.FC<Props> = ({
           removeFromCart={removeFromCart}
         />
       ))}
+      <h2>Total: ${calculateTotal(articles).toFixed(2)}</h2>
     </Wrapper>
   );
 };

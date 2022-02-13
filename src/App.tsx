@@ -33,10 +33,9 @@ function App() {
 
   const addToCart = (selectedArticle: CartArticle) => {
     setCartArticles((prevArticle) => {
-      const itemInCart = prevArticle.find(
-        (article) => article.id === selectedArticle.id
-      );
-      console.log(itemInCart);
+      const itemInCart = prevArticle.find((article) => {
+        return article.id === selectedArticle.id;
+      });
       if (itemInCart) {
         return prevArticle.map((article) =>
           article.id === selectedArticle.id
@@ -49,8 +48,8 @@ function App() {
   };
 
   const removeFromCart = (id: number) => {
-    setCartArticles((prevArticle) =>
-      prevArticle.reduce((total, article) => {
+    setCartArticles((prevArticle) => {
+      return prevArticle.reduce((total, article) => {
         if (article.id === id) {
           if (article.amount === 1) {
             return total;
@@ -59,10 +58,14 @@ function App() {
         } else {
           return [...total, article];
         }
-      }, [] as CartArticle[])
-    );
+      }, [] as CartArticle[]);
+    });
   };
-  const getTotal = (): void => {};
+  const getTotal = (articles: CartArticle[]) => {
+    return articles.reduce((total: number, article) => {
+      return total + article.amount;
+    }, 0);
+  };
   console.log(data);
   return (
     <Wrapper>
@@ -74,7 +77,7 @@ function App() {
         />
       </Drawer>
       <StyledButton onClick={() => setOpenCart(true)}>
-        <Badge color="error">
+        <Badge badgeContent={getTotal(cartArticles)} color="error">
           <AddShoppingCartIcon />
         </Badge>
       </StyledButton>

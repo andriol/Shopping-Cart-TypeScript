@@ -1,4 +1,3 @@
-import React from "react";
 import { CartArticle } from "../App";
 import { Wrapper } from "./Card.styles";
 import Button from "@material-ui/core/Button";
