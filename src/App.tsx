@@ -10,7 +10,7 @@ import Badge from "@material-ui/core/Badge";
 // Styles
 import { Wrapper, StyledButton } from "./App.styles";
 
-export type CartArticle = {
+export type Cartarticle = {
   id: number;
   category: string;
   description: string;
@@ -20,36 +20,36 @@ export type CartArticle = {
   amount: number;
 };
 
-const getProducts = async (): Promise<CartArticle[]> =>
+const getProducts = async (): Promise<Cartarticle[]> =>
   await (await fetch("https://fakestoreapi.com/products")).json();
 
 function App() {
   const [openCart, setOpenCart] = useState(false);
-  const [cartArticles, setCartArticles] = useState<CartArticle[]>([]);
-  const { data, isLoading, error } = useQuery<CartArticle[]>(
+  const [cartarticles, setCartarticles] = useState<Cartarticle[]>([]);
+  const { data, isLoading, error } = useQuery<Cartarticle[]>(
     "products",
     getProducts
   );
 
-  const addToCart = (selectedArticle: CartArticle) => {
-    setCartArticles((prevArticle) => {
-      const itemInCart = prevArticle.find((article) => {
-        return article.id === selectedArticle.id;
+  const addToCart = (selectedarticle: Cartarticle) => {
+    setCartarticles((prevarticle) => {
+      const articleInCart = prevarticle.find((article) => {
+        return article.id === selectedarticle.id;
       });
-      if (itemInCart) {
-        return prevArticle.map((article) =>
-          article.id === selectedArticle.id
+      if (articleInCart) {
+        return prevarticle.map((article) =>
+          article.id === selectedarticle.id
             ? { ...article, amount: article.amount + 1 }
             : article
         );
       }
-      return [...prevArticle, { ...selectedArticle, amount: 1 }];
+      return [...prevarticle, { ...selectedarticle, amount: 1 }];
     });
   };
 
   const removeFromCart = (id: number) => {
-    setCartArticles((prevArticle) => {
-      return prevArticle.reduce((total, article) => {
+    setCartarticles((prevarticle) => {
+      return prevarticle.reduce((total, article) => {
         if (article.id === id) {
           if (article.amount === 1) {
             return total;
@@ -58,10 +58,10 @@ function App() {
         } else {
           return [...total, article];
         }
-      }, [] as CartArticle[]);
+      }, [] as Cartarticle[]);
     });
   };
-  const getTotal = (articles: CartArticle[]) => {
+  const getTotal = (articles: Cartarticle[]) => {
     return articles.reduce((total: number, article) => {
       return total + article.amount;
     }, 0);
@@ -71,13 +71,13 @@ function App() {
     <Wrapper>
       <Drawer anchor="right" open={openCart} onClose={() => setOpenCart(false)}>
         <DrawerSlide
-          articles={cartArticles}
+          articles={cartarticles}
           addToCart={addToCart}
           removeFromCart={removeFromCart}
         />
       </Drawer>
       <StyledButton onClick={() => setOpenCart(true)}>
-        <Badge badgeContent={getTotal(cartArticles)} color="error">
+        <Badge badgeContent={getTotal(cartarticles)} color="error">
           <AddShoppingCartIcon />
         </Badge>
       </StyledButton>

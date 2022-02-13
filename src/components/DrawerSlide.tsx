@@ -1,9 +1,9 @@
-import SingleArticle from "./SingleArticle";
-import { Wrapper } from "./Card.styles";
-import { CartArticle } from "../App";
+import Singlearticle from "./SingleArticle";
+import { Wrapper } from "./DrawerSlide.styles";
+import { Cartarticle } from "../App";
 type Props = {
-  articles: CartArticle[];
-  addToCart: (selectedItem: CartArticle) => void;
+  articles: Cartarticle[];
+  addToCart: (selectedarticle: Cartarticle) => void;
   removeFromCart: (id: number) => void;
 };
 
@@ -12,7 +12,7 @@ const DrawerSlide: React.FC<Props> = ({
   addToCart,
   removeFromCart,
 }) => {
-  const calculateTotal = (articles: CartArticle[]) => {
+  const calculateTotal = (articles: Cartarticle[]) => {
     return articles.reduce((total: number, article) => {
       return total + article.amount * article.price;
     }, 0);
@@ -20,9 +20,9 @@ const DrawerSlide: React.FC<Props> = ({
   return (
     <Wrapper>
       <h2>Your Shopping Cart</h2>
-      {articles.length === 0 ? <p>No items in cart.</p> : null}
+      {articles.length === 0 ? <p>No articles in cart.</p> : null}
       {articles.map((article) => (
-        <SingleArticle
+        <Singlearticle
           key={article.id}
           article={article}
           addToCart={addToCart}

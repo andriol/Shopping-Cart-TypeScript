@@ -1,14 +1,14 @@
-import { CartArticle } from "../App";
-import { Wrapper } from "./Card.styles";
+import { Cartarticle } from "../App";
+import { Wrapper } from "./SingleArticle.styles";
 import Button from "@material-ui/core/Button";
 
 type Props = {
-  article: CartArticle;
-  addToCart: (selectedArticle: CartArticle) => void;
+  article: Cartarticle;
+  addToCart: (selectedarticle: Cartarticle) => void;
   removeFromCart: (id: number) => void;
 };
 
-const SingleArticle: React.FC<Props> = ({
+const Singlearticle: React.FC<Props> = ({
   article,
   addToCart,
   removeFromCart,
@@ -43,4 +43,4 @@ const SingleArticle: React.FC<Props> = ({
     <img src={article.image} alt={article.title} />
   </Wrapper>
 );
-export default SingleArticle;
+export default Singlearticle;
